@@ -1,7 +1,7 @@
 ﻿using Appointment_Scheduler_Project.Applications.Repository;
-using Appointment_Scheduler_Project.Infrastructure;
+using Appointment_Scheduler_Project.Infrastructure.Repositories;
 using Appointment_Scheduler_Project.Persistences.Repositories;
-//using Hangfire;
+
 
 namespace Appointment_Scheduler_Project.Applications.Services
 {

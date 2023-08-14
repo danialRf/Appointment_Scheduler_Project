@@ -102,3 +102,5 @@ E:\Coding\c#\Appointment_Scheduler_Project\Appointment_Scheduler_Project\bin\Deb
 E:\Coding\c#\Appointment_Scheduler_Project\Appointment_Scheduler_Project\bin\Debug\net7.0\System.Security.Cryptography.Pkcs.dll
 E:\Coding\c#\Appointment_Scheduler_Project\Appointment_Scheduler_Project\bin\Debug\net7.0\System.Security.Cryptography.Xml.dll
 E:\Coding\c#\Appointment_Scheduler_Project\Appointment_Scheduler_Project\bin\Debug\net7.0\runtimes\win\lib\net7.0\System.Security.Cryptography.Pkcs.dll
+E:\Coding\c#\Appointment_Scheduler_Project\Appointment_Scheduler_Project\bin\Debug\net7.0\Quartz.dll
+E:\Coding\c#\Appointment_Scheduler_Project\Appointment_Scheduler_Project\bin\Debug\net7.0\Quartz.Extensions.DependencyInjection.dll

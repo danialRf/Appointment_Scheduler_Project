@@ -1,4 +1,5 @@
-﻿using Appointment_Scheduler_Project.Domain.Entities;
+﻿using Appointment_Scheduler_Project.Applications.Repository;
+using Appointment_Scheduler_Project.Domain.Entities;
 using Appointment_Scheduler_Project.Persistences.EF;
 using Appointment_Scheduler_Project.Persistences.Repositories;
 using Appointment_Scheduler_Project.Presentations.Dto;
@@ -14,9 +15,10 @@ namespace Appointment_Scheduler_Project.Presentations.Controllers
     {
         private readonly UserManager<ApplicationUser> _userManager;
         private readonly ApScDbContext _dbContext;
-        private readonly AppointmentRepository _appointmentRepository;
+        private readonly IAppointmentRepository _appointmentRepository;
         private readonly IMapper _mapper;
-        public UserAppointmentsController(UserManager<ApplicationUser> userManager, ApScDbContext dbContext, AppointmentRepository appointmentRepository, IMapper mapper)
+
+        public UserAppointmentsController(UserManager<ApplicationUser> userManager, ApScDbContext dbContext, IAppointmentRepository appointmentRepository, IMapper mapper)
         {
             _userManager = userManager;
             _dbContext = dbContext;
@@ -25,12 +27,13 @@ namespace Appointment_Scheduler_Project.Presentations.Controllers
         }
 
 
+
         [HttpGet]
 
         public async Task<ActionResult<IEnumerable<UserGetAppointmentsDto>>> UserGetAllFreeAppointments()
         {
             var appointments = await _appointmentRepository.GetAllFreeAppointments();
-            
+
             var result = _mapper.Map<List<UserAddAppointmentDto>>(appointments);
 
             return Ok(result);
@@ -47,10 +50,10 @@ namespace Appointment_Scheduler_Project.Presentations.Controllers
                 _appointmentRepository.Expire(appointment.Id);
                 return Ok(result);
             }
-                return BadRequest("The date you entered for appointment is not valid");
+            return BadRequest("The date you entered for appointment is not valid");
         }
 
-      //  public async Task<ActionResult> UserEditNews();
+        //  public async Task<ActionResult> UserEditNews();
 
 
 

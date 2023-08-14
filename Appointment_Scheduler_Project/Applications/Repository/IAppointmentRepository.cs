@@ -1,5 +1,5 @@
 ﻿using Appointment_Scheduler_Project.Domain.Entities;
-using Appointment_Scheduler_Project.Infrastructure;
+using Appointment_Scheduler_Project.Infrastructure.Repositories;
 
 namespace Appointment_Scheduler_Project.Applications.Repository
 {

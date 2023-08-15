@@ -53,7 +53,20 @@ namespace Appointment_Scheduler_Project.Presentations.Controllers
             return BadRequest("The date you entered for appointment is not valid");
         }
 
-        //  public async Task<ActionResult> UserEditNews();
+        [HttpPut("{id}")]
+        public async Task<ActionResult> UserEditAppointment(int id, [FromBody] UserEditAppointmentDto newsDto)
+
+        {
+            var Appointment = _appointmentRepository.GetById(id);
+            if (Appointment == null)
+            {
+                return BadRequest("there isn't any appointment with this id");
+            }
+            var result = _mapper.Map<Appointment>(newsDto);
+            _ = _appointmentRepository.Update(result);
+            return Ok(result.Id);
+
+        }
 
 
 

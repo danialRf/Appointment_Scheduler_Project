@@ -29,7 +29,6 @@ namespace Appointment_Scheduler_Project.Presentations.Controllers
 
 
         [HttpGet]
-
         public async Task<ActionResult<IEnumerable<UserGetAppointmentsDto>>> UserGetAllFreeAppointments()
         {
             var appointments = await _appointmentRepository.GetAllFreeAppointments();
@@ -65,6 +64,7 @@ namespace Appointment_Scheduler_Project.Presentations.Controllers
             var result = _mapper.Map<Appointment>(newsDto);
             _ = _appointmentRepository.Update(result);
             return Ok(result.Id);
+
 
         }
 

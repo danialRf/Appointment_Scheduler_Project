@@ -6,6 +6,7 @@ namespace Appointment_Scheduler_Project.Domain.Entities
     {
         public int Id { get; set; }
         public string Name { get; set; }
+        public string AppointmentName { get; set; }
         public Guid UserId { get; set; }
         public DateTime DateOfBirth { get; set; }
         public DateTime AppointmentDate { get; set; }

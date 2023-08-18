@@ -1,4 +1,4 @@
-﻿namespace Appointment_Scheduler_Project.Infrastructure.Repositories
+﻿namespace Appointment_Scheduler_Project.Infrastructure.Service
 {
     public interface IAppointmentService
     {

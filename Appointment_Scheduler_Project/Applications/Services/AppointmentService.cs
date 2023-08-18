@@ -1,5 +1,5 @@
 ﻿using Appointment_Scheduler_Project.Applications.Repository;
-using Appointment_Scheduler_Project.Infrastructure.Repositories;
+using Appointment_Scheduler_Project.Infrastructure.Service;
 using Appointment_Scheduler_Project.Persistences.Repositories;
 
 

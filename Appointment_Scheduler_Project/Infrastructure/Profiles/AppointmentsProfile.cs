@@ -14,6 +14,9 @@ namespace Appointment_Scheduler_Project.Infrastructure.Profiles
             CreateMap<UserAddAppointmentDto, Appointment>();
             CreateMap<Appointment,UserAddAppointmentDto > ();
 
+            CreateMap<Appointment,AdminSetApointmentDto> ();
+            CreateMap<AdminSetApointmentDto,Appointment>();
+
         }
     }
 }

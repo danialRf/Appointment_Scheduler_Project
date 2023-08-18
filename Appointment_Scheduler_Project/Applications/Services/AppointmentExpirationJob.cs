@@ -1,4 +1,4 @@
-﻿using Appointment_Scheduler_Project.Infrastructure.Repositories;
+﻿using Appointment_Scheduler_Project.Infrastructure.Service;
 using Quartz;
 using System;
 using System.Threading.Tasks;

@@ -2,6 +2,7 @@
 {
     public class UserEditAppointmentDto
     {
+
         public string Name { get; set; }
         public DateTime AppointmentDate { get; set; }
 

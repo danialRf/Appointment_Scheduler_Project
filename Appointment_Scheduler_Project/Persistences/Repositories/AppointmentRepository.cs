@@ -25,8 +25,11 @@ namespace Appointment_Scheduler_Project.Persistences.Repositories
         }
         public async Task<IEnumerable<Appointment>> GetAllFreeAppointments()
         {
-            return (IEnumerable<Appointment>)await _context.Appointments.FirstOrDefaultAsync(x => x.IsExpired == false);
+            return await _context.Appointments
+                .Where(x => x.IsExpired == false)
+                .ToListAsync();
         }
+
 
         public async Task<int> Create(Appointment appointment)
         {

@@ -27,7 +27,7 @@ namespace Appointment_Scheduler_Project.Presentations.Controllers
         private readonly IAppointmentRepository _appointmentRepository;
         private readonly IMapper _mapper;
         private readonly IUserService _userService;
-        
+
 
         public AdminAppointmentController(UserManager<ApplicationUser> userManager, ApScDbContext dbContext, IAppointmentRepository appointmentRepository, IMapper mapper, ILogger<AdminAppointmentController> logger, IUserService userService)
         {
@@ -43,21 +43,22 @@ namespace Appointment_Scheduler_Project.Presentations.Controllers
         [HttpPost]
         public async Task<ActionResult> AdminAddAppointments([FromBody] AdminSetApointmentDto appointmentDto)
         {
-
-            var adminUserId = await _userService.GetAdminUserIdAsync(User);
-
-            if (adminUserId == null)
-            {
-                // Handle invalid UserId if needed
-                return BadRequest("Invalid UserId");
-            }
-
+            var userId = _userService.GetCurrentUserId();
             var appointment = _mapper.Map<Appointment>(appointmentDto);
-            appointment.AppointmentStatus = AppointmentStatus.approved;
-            appointment.UserId = adminUserId.Value;
-
+            //appointment.AppointmentStatus = AppointmentStatus.approved;
+            appointment.UserId = userId;
             var result = await _appointmentRepository.Create(appointment);
             _logger.LogInformation("Appointment Created");
+            return Ok(result);
+        }
+
+        [HttpGet]
+        public async Task<ActionResult<IEnumerable<AdminGetAppointmentsDto>>> AdminGetAllFreeAppointments()
+        {
+            var appointments = await _appointmentRepository.GetAllFreeAppointments();
+
+            var result = _mapper.Map<List<AdminGetAppointmentsDto>>(appointments);
+
             return Ok(result);
         }
     }

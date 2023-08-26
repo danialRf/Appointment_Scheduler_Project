@@ -5,16 +5,22 @@ namespace Appointment_Scheduler_Project.Applications.Services
 {
     public class UserService : IUserService
     {
-        public async Task<Guid?> GetAdminUserIdAsync(ClaimsPrincipal user)
+        private readonly IHttpContextAccessor _httpContextAccessor;
+        public UserService(IHttpContextAccessor httpContextAccessor)
         {
-            var adminUserId = user.FindFirst(ClaimTypes.Sid)?.Value;
+            _httpContextAccessor = httpContextAccessor;
+        }
 
-            if (Guid.TryParse(adminUserId, out Guid userId))
+        public Guid GetCurrentUserId()
+        {
+            var userIdClaim = _httpContextAccessor.HttpContext.User.FindFirst(ClaimTypes.Sid);
+
+            if (userIdClaim != null && Guid.TryParse(userIdClaim.Value, out Guid userId))
             {
                 return userId;
             }
 
-            return null;
-        }
+            throw new InvalidOperationException("Invalid UserId");
+        }            
     }
 }

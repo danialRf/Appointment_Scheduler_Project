@@ -53,13 +53,40 @@ namespace Appointment_Scheduler_Project.Presentations.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<AdminGetAppointmentsDto>>> AdminGetAllFreeAppointments()
+        public async Task<ActionResult<IEnumerable<AdminGetAppointmentDto>>> AdminGetAllFreeAppointments()
         {
             var appointments = await _appointmentRepository.GetAllFreeAppointments();
 
-            var result = _mapper.Map<List<AdminGetAppointmentsDto>>(appointments);
+            var result = _mapper.Map<List<AdminGetAppointmentDto>>(appointments);
 
             return Ok(result);
         }
+
+        [HttpGet("{id}")]
+        public async Task<ActionResult<AdminGetAppointmentDto>> GetAppointmentById(int id)
+        {
+            var appointment = await _appointmentRepository.GetById(id);
+
+            if (appointment == null)
+                return NotFound();
+
+            var appointmentDto = _mapper.Map<AdminGetAppointmentDto>(appointment);
+
+            return Ok(appointmentDto);
+        }
+
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> DeleteAppointment(int id)
+        {
+            var appointment = await _appointmentRepository.GetById(id);
+
+            if (appointment == null)
+                return NotFound();
+
+            await _appointmentRepository.Delete(id);
+
+            return NoContent();
+        }
+
     }
 }

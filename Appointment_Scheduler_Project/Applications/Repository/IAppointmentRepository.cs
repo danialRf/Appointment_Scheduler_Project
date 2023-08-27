@@ -9,7 +9,7 @@ namespace Appointment_Scheduler_Project.Applications.Repository
 
         Task <bool> Isvalid(int appointmentId);
 
-        Task<bool> Expire (int appointmentId);
+       Task<int> GetAppointmentIdByDate(DateTime date);
 
         Task<List<Appointment>> GetAppointmentsBeforeDate(DateTime date);
     }

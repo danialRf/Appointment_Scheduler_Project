@@ -4,6 +4,7 @@ using Appointment_Scheduler_Project.Domain.Enums;
 using Appointment_Scheduler_Project.Persistences.EF;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.EntityFrameworkCore;
+using System.Net.WebSockets;
 
 namespace Appointment_Scheduler_Project.Persistences.Repositories
 {
@@ -61,15 +62,8 @@ namespace Appointment_Scheduler_Project.Persistences.Repositories
 
         public async Task<bool> Isvalid(int appointmentId)
         {
-            var result = _context.Appointments.Any(x => x.IsExpired == false);
-            return result;
-        }
-
-        public async Task<bool> Expire(int appointmentId)
-        {
-            var appointment = _context.Appointments.FirstOrDefaultAsync(x => x.Id == appointmentId).Result;
-            _ = appointment.IsExpired == true;
-            return true;
+            var result = _context.Appointments.AnyAsync(x => x.IsExpired == false);
+            return await result;
         }
 
         public async Task<List<Appointment>> GetAppointmentsBeforeDate(DateTime date)
@@ -77,6 +71,14 @@ namespace Appointment_Scheduler_Project.Persistences.Repositories
             return await _context.Appointments
                         .Where(appointment => appointment.AppointmentDate < date)
                         .ToListAsync();
+        }
+
+        public async Task<int> GetAppointmentIdByDate(DateTime date)
+        {
+            return await _context.Appointments
+                .Where(a => a.AppointmentDate == date)
+                .Select(a => a.Id)
+                .FirstOrDefaultAsync();
         }
     }
 }

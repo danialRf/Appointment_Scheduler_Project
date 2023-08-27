@@ -50,16 +50,17 @@ namespace Appointment_Scheduler_Project.Presentations.Controllers
         {
 
             var userId = _userService.GetCurrentUserId();
-
+            var appointmentId =await _appointmentRepository.GetAppointmentIdByDate(userAddAppointment.AppontmentDate);
 
             var appointment = _mapper.Map<Appointment>(userAddAppointment);
             if (await _appointmentRepository.Isvalid(appointment.Id))
             {
+                appointment.Id = appointmentId;
                 appointment.UserId = userId;
                 appointment.AppointmentName = "User";
-                //appointment.AppointmentStatus =AppointmentStatus.pending;
+                appointment.IsExpired = true;
                 var result = await _appointmentRepository.Update(appointment);
-                _ = _appointmentRepository.Expire(appointment.Id);
+
                 return Ok(result);
             }
             return BadRequest("The date you entered for appointment is not valid");

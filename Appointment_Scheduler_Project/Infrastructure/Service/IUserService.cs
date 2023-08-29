@@ -5,7 +5,9 @@ namespace Appointment_Scheduler_Project.Infrastructure.Service
 
     public interface IUserService
     {
-        Guid GetCurrentUserId();
+        Task<Guid> GetCurrentUserIdAsync();
+
+        Task<bool> IsAppointmentBelongingToCurrentUserAsync(int appointmentId);
     }
 
 }

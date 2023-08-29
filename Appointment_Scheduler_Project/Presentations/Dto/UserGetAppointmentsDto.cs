@@ -3,6 +3,6 @@
     public class UserGetAppointmentsDto
     {
         public DateTime AppointmentDate { get; set; }
-        
+        public string AppointmentName { get; set; }
     }
 }

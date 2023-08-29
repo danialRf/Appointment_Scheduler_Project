@@ -1,9 +1,7 @@
 ﻿using Appointment_Scheduler_Project.Applications.Repository;
 using Appointment_Scheduler_Project.Domain.Entities;
-using Appointment_Scheduler_Project.Domain.Enums;
 using Appointment_Scheduler_Project.Infrastructure.Service;
 using Appointment_Scheduler_Project.Persistences.EF;
-using Appointment_Scheduler_Project.Persistences.Repositories;
 using Appointment_Scheduler_Project.Presentations.Dto;
 using AutoMapper;
 using Microsoft.AspNetCore.Authorization;
@@ -49,16 +47,17 @@ namespace Appointment_Scheduler_Project.Presentations.Controllers
         public async Task<ActionResult> UserAddAppointment([FromBody] UserAddAppointmentDto userAddAppointment)
         {
 
-            var userId = _userService.GetCurrentUserId();
-            var appointmentId =await _appointmentRepository.GetAppointmentIdByDate(userAddAppointment.AppontmentDate);
+            var userId = _userService.GetCurrentUserIdAsync();
+            var appointmentId = await _appointmentRepository.GetAppointmentIdByDate(userAddAppointment.AppontmentDate);
 
             var appointment = _mapper.Map<Appointment>(userAddAppointment);
             if (await _appointmentRepository.Isvalid(appointment.Id))
             {
                 appointment.Id = appointmentId;
-                appointment.UserId = userId;
+                appointment.UserId = userId.Result;
                 appointment.AppointmentName = "User";
                 appointment.IsExpired = true;
+                appointment.AppointmentDate = userAddAppointment.AppontmentDate;
                 var result = await _appointmentRepository.Update(appointment);
 
                 return Ok(result);
@@ -68,19 +67,18 @@ namespace Appointment_Scheduler_Project.Presentations.Controllers
 
         [HttpPut("{id}")]
         public async Task<ActionResult> UserEditAppointment(int id, [FromBody] UserEditAppointmentDto appointmentDto)
-
         {
-            var appointment = await _appointmentRepository.GetById(id);
+            //var appointment = await _appointmentRepository.GetById(id);
 
-            if (appointment == null || appointment.IsExpired == true)
+            bool appointmentBelongingResult = await _userService.IsAppointmentBelongingToCurrentUserAsync(id);
+
+            if (/*appointment == null ||*/ appointmentBelongingResult == true)
             {
                 return BadRequest("there isn't any appointment with this id");
             }
 
             var result = _mapper.Map<Appointment>(appointmentDto);
-
             _ = await _appointmentRepository.Update(result);
-
             return Ok(result.Id);
 
         }

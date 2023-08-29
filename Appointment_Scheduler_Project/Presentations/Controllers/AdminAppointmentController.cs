@@ -40,19 +40,27 @@ namespace Appointment_Scheduler_Project.Presentations.Controllers
         }
 
 
-        [HttpPost]
+        [HttpPost("AdminAddAppointments")]
         public async Task<ActionResult> AdminAddAppointments([FromBody] AdminSetApointmentDto appointmentDto)
         {
-            var userId = _userService.GetCurrentUserId();
+            var userId = _userService.GetCurrentUserIdAsync();
             var appointment = _mapper.Map<Appointment>(appointmentDto);
             //appointment.AppointmentStatus = AppointmentStatus.approved;
-            appointment.UserId = userId;
+            appointment.UserId = userId.Result;
             var result = await _appointmentRepository.Create(appointment);
             _logger.LogInformation("Appointment Created");
             return Ok(result);
         }
 
-        [HttpGet]
+        [HttpGet("AdminGetAllAppointments")]
+        public async Task<ActionResult<IEnumerable<AdminGetAppointmentDto>>> AdminGetAllAppointments()
+        {
+            var appointments = await _appointmentRepository.GetAll();
+            var result = _mapper.Map<List<AdminGetAppointmentDto>>(appointments);
+            return Ok(result);
+        }
+
+        [HttpGet("AdminGetAllFreeAppointments")]
         public async Task<ActionResult<IEnumerable<AdminGetAppointmentDto>>> AdminGetAllFreeAppointments()
         {
             var appointments = await _appointmentRepository.GetAllFreeAppointments();
@@ -78,6 +86,7 @@ namespace Appointment_Scheduler_Project.Presentations.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteAppointment(int id)
         {
+
             var appointment = await _appointmentRepository.Delete(id);
 
             return NoContent();

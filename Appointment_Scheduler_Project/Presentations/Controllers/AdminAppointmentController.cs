@@ -78,12 +78,7 @@ namespace Appointment_Scheduler_Project.Presentations.Controllers
         [HttpDelete("{id}")]
         public async Task<IActionResult> DeleteAppointment(int id)
         {
-            var appointment = await _appointmentRepository.GetById(id);
-
-            if (appointment == null)
-                return NotFound();
-
-            await _appointmentRepository.Delete(id);
+            var appointment = await _appointmentRepository.Delete(id);
 
             return NoContent();
         }

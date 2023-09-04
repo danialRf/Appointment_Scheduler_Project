@@ -43,6 +43,26 @@ namespace Appointment_Scheduler_Project.Presentations.Controllers
             return Ok(result);
         }
 
+        //[HttpGet("UserGetMyAppointment")]
+        //public async Task<ActionResult<IEnumerable<UserGetAppointmentsDto>>> UserGetMyAppointments()
+        //{
+        //    var appointments = await _appointmentRepository.GetAll();
+
+        //    List<Appointment> result = new List<Appointment>();
+
+        //    foreach (var appointment in appointments)
+        //    {
+
+        //        if (await _userService.IsAppointmentBelongingToCurrentUserAsync(appointment.Id) == true)
+        //        {
+        //            result.Add(appointment);
+        //        }
+        //        _mapper.Map<Appointment>(result);
+        //    }
+
+        //    return Ok(result);
+        //}
+
         [HttpPost]
         public async Task<ActionResult> UserAddAppointment([FromBody] UserAddAppointmentDto userAddAppointment)
         {
@@ -65,22 +85,18 @@ namespace Appointment_Scheduler_Project.Presentations.Controllers
             return BadRequest("The date you entered for appointment is not valid");
         }
 
-        [HttpPut("{id}")]
-        public async Task<ActionResult> UserEditAppointment(int id, [FromBody] UserEditAppointmentDto appointmentDto)
+        [HttpDelete("{id}")]
+        public async Task<ActionResult> UserDeleteAppointment(int id)
         {
             //var appointment = await _appointmentRepository.GetById(id);
-
             bool appointmentBelongingResult = await _userService.IsAppointmentBelongingToCurrentUserAsync(id);
-
-            if (/*appointment == null ||*/ appointmentBelongingResult == true)
+            if (appointmentBelongingResult == false)
             {
-                return BadRequest("there isn't any appointment with this id");
+                var appointment = await _appointmentRepository.Delete(id);
+
+
             }
-
-            var result = _mapper.Map<Appointment>(appointmentDto);
-            _ = await _appointmentRepository.Update(result);
-            return Ok(result.Id);
-
+            return NoContent();
         }
 
     }

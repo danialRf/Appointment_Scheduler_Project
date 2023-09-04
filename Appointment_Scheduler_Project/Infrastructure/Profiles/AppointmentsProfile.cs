@@ -12,7 +12,7 @@ namespace Appointment_Scheduler_Project.Infrastructure.Profiles
             CreateMap<UserGetAppointmentsDto, Appointment>();
 
             CreateMap<UserAddAppointmentDto, Appointment>();
-            CreateMap<Appointment,UserAddAppointmentDto > ();
+            CreateMap<Appointment,UserAddAppointmentDto >();
 
             CreateMap<Appointment,AdminSetApointmentDto> ();
             CreateMap<AdminSetApointmentDto,Appointment>();
@@ -20,7 +20,7 @@ namespace Appointment_Scheduler_Project.Infrastructure.Profiles
             CreateMap<Appointment, AdminGetAppointmentDto>();
             CreateMap<AdminGetAppointmentDto,Appointment>();
 
-
+            
         }
     }
 }
